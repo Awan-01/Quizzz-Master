@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Quizzz Master</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* New username modal styles */
+    .username-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .username-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .username-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    
+    .username-modal.active .username-card {
+      transform: translateY(0);
+    }
+    
+    .dark-mode .username-card {
+      background: #2c3e50;
+      color: white;
+    }
+    
+    .username-card h2 {
+      margin-bottom: 1.5rem;
+      color: #007bff;
+    }
+    
+    .username-card p {
+      margin-bottom: 2rem;
+      color: inherit;
+      opacity: 0.8;
+    }
+    
+    .username-input-container {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    
+    .username-input-container i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #007bff;
+    }
+    
+    .username-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .dark-mode .username-input {
+      background: #34495e;
+      border-color: #2c3e50;
+      color: white;
+    }
+    
+    .username-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+      outline: none;
+    }
+    
+    .username-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .username-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .username-btn-primary {
+      background: linear-gradient(135deg, #007bff, #00d4ff);
+      color: white;
+    }
+    
+    .username-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #7f8c8d;
+      transition: all 0.3s ease;
+    }
+    
+    .close-modal:hover {
+      color: #e74c3c;
+      transform: rotate(90deg);
+    }
+    
+    .fade-out {
+      animation: fadeOut 0.3s ease forwards;
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-20px); }
+    }
+  </style>
+</head>
+<body class="light-mode">
+  <div class="bg-overlay"></div>
+
+  <header>
+    <div class="logo">
+      <span>Quizzz Master</span>
+    </div>
+    <div class="header-right">
+      <label class="theme-toggle">
+        <input type="checkbox" id="themeSwitch" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <div class="welcome-card">
+      <h1>Welcome to <span class="highlight">Quizzz Master!</span></h1>
+      <p>Challenge yourself and boost your brainpower with fun, fast quizzes!</p>
+      <button class="play-btn" id="playNowBtn">
+        <i class="fas fa-play"></i> Play Now
+      </button>
+    </div>
+  </main>
+
+  <!-- New Username Modal -->
+  <div class="username-modal" id="usernameModal">
+    <div class="username-card">
+      <button class="close-modal" id="closeModalBtn">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2>Enter Your Nickname</h2>
+      <p>Choose a nickname to start playing</p>
+      
+      <div class="username-input-container">
+        <i class="fas fa-user-tag"></i>
+        <input type="text" id="usernameInput" class="username-input" 
+               placeholder="Your quiz nickname" maxlength="20" autocomplete="off" />
+      </div>
+      
+      <div class="username-actions">
+        <button id="submitUsernameBtn" class="username-btn username-btn-primary">
+          <i class="fas fa-play"></i> Start Quiz
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // UI Elements
+      const playNowBtn = document.getElementById('playNowBtn');
+      const usernameModal = document.getElementById('usernameModal');
+      const submitUsernameBtn = document.getElementById('submitUsernameBtn');
+      const usernameInput = document.getElementById('usernameInput');
+      const welcomeCard = document.querySelector('.welcome-card');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const themeSwitch = document.getElementById('themeSwitch');
+
+      // Theme Switching
+      function initTheme() {
+        const darkMode = localStorage.getItem('darkMode') === 'true';
+        document.body.classList.toggle('dark-mode', darkMode);
+        themeSwitch.checked = darkMode;
+      }
+
+      themeSwitch.addEventListener('change', function() {
+        const isDark = this.checked;
+        document.body.classList.toggle('dark-mode', isDark);
+        localStorage.setItem('darkMode', isDark);
+      });
+
+      // Username Modal Transitions
+      playNowBtn.addEventListener('click', function() {
+        welcomeCard.classList.add('fade-out');
+        setTimeout(() => {
+          usernameModal.classList.add('active');
+          usernameInput.focus();
+        }, 300);
+      });
+
+      closeModalBtn.addEventListener('click', function() {
+        usernameModal.classList.remove('active');
+        welcomeCard.classList.remove('fade-out');
+      });
+
+      // Username Submission
+      function startQuiz() {
+        const username = usernameInput.value.trim();
+        if (username) {
+          localStorage.setItem('quizUsername', username);
+          window.location.href = 'levels.html';
+        } else {
+          alert('Please enter a nickname to continue');
+          usernameInput.focus();
+        }
+      }
+
+      submitUsernameBtn.addEventListener('click', startQuiz);
+      usernameInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') startQuiz();
+      });
+
+      // Close modal when clicking outside
+      usernameModal.addEventListener('click', function(e) {
+        if (e.target === usernameModal) {
+          usernameModal.classList.remove('active');
+          welcomeCard.classList.remove('fade-out');
+        }
+      });
+
+      // Initialize theme
+      initTheme();
+    });
+  </script>
+</body>
+</html>
