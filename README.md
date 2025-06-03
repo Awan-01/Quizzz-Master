@@ -8,9 +8,8 @@ Real-time timer & scoring system
 Responsive UI for all screen sizes
 Smooth animations & UI transitions
 
-![h6rpp4tpwgycp1cm9ch9](https://github.com/user-attachments/assets/bb3cb128-ed85-4235-acc3-539d3717ca5d)
-![h6rpp4tpwgycp1cm9ch9](https://github.com/user-attachments/assets/0b0617aa-1a07-4eb7-afef-b573fbc35720)
-![oogwjdfbau2dbzt2nvku](https://github.com/user-attachments/assets/d6889bca-d5b5-4a0f-8829-d286032aa5fd)
-![x6p2uleklbmlwcfe8rws](https://github.com/user-attachments/assets/75145153-6bec-4810-b99b-3f1002f50c2e)
-![xbxn7ljpk368ojhb1um7](https://github.com/user-attachments/assets/2a481a29-5ce0-423a-8f39-8cb6daafa338)
-
+![h6rpp4tpwgycp1cm9ch9](https://github.com/user-attachments/assets/7a229445-5b0e-4fbb-a787-9d1102a37842)
+![jsqgnrpcg30phhxruxqk](https://github.com/user-attachments/assets/918f1a1b-e968-4be2-ae7c-5ef952fd5953)
+![oogwjdfbau2dbzt2nvku](https://github.com/user-attachments/assets/f5fdc58d-3f05-4947-b5c5-2b9eec35537c)
+![x6p2uleklbmlwcfe8rws](https://github.com/user-attachments/assets/77b47fa5-138d-4513-bc38-15b33beaebbf)
+![xbxn7ljpk368ojhb1um7](https://github.com/user-attachments/assets/af64809a-8237-4c86-b2e8-0ff8bd0608a9)
